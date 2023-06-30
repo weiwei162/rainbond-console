@@ -181,8 +181,8 @@ class NewApp(object):
             # The TCP port is opened by default
             temp_ports = []
             for port in cpt.ports:
-                if port.protocol == "tcp":
-                    port.is_outer_service = True
+                # if port.protocol == "tcp":
+                #     port.is_outer_service = True
                 temp_ports.append(port)
             ports.extend(temp_ports)
             http_rules.extend(cpt.http_rules)
