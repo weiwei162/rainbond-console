@@ -56,6 +56,7 @@ class HelmAppService(object):
         for cv in convert_resource:
             app = dict()
             app["service_cname"] = cv["components_name"]
+            app["k8s_component_name"] = cv["components_name"]
             app["tenant_id"] = tenant.tenant_id
             service_id = make_uuid3(chart + "/" + cv["components_name"])
             app["service_id"] = service_id
@@ -135,8 +136,8 @@ class HelmAppService(object):
                         "is_outer_service": False,
                         "k8s_service_name": service_alias
                     }
-                    if port["protocol"] in ["http", "tcp"]:
-                        port_management["is_outer_service"] = True
+                    # if port["protocol"] in ["http", "tcp"]:
+                    #     port_management["is_outer_service"] = True
                     app["port_map_list"].append(port_management)
 
             app["service_volume_map_list"] = []
