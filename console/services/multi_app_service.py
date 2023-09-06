@@ -83,6 +83,9 @@ class MultiAppService(object):
                 return 400, rst, None
 
         for service_info in service_infos:
+            k8s_component_name = service_info["k8s_component_name"]
+            if k8s_component_name and app_service.is_k8s_component_name_duplicate(group_id, k8s_component_name):
+                k8s_component_name = k8s_component_name + "-" + make_uuid()[:6]
             code, msg_show, new_service = app_service \
                 .create_source_code_app(region_name, tenant, user,
                                         service.code_from,
@@ -93,6 +96,7 @@ class MultiAppService(object):
                                         service.server_type,
                                         oauth_service_id=service.oauth_service_id,
                                         git_full_name=service.git_full_name,
+                                        k8s_component_name=k8s_component_name,
                                         arch=service_info.get("arch", "amd64"))
             if code != 200:
                 raise AbortRequest("Multiple services; Service alias: {}; error creating service".format(service.service_alias),
